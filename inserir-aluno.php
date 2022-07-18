@@ -13,4 +13,5 @@ $sqlInsert = "INSERT INTO students (name, birth_date) VALUES ('{$student->name()
 
 echo $sqlInsert;
 
+//O exec só traz a quantidade de linhas afetas como retorno
 var_dump($pdo->exec($sqlInsert));
