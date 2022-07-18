@@ -32,3 +32,9 @@ echo $studentList[0][0];
 
 //O padrão do fetchAll é trazer os dados representados dessas 2 formas
 //Só que podemos informar como ele deve trazer essa informação
+
+// O método fetch retorna uma única linha, diferentemente do método fetchAll, que retorna todas as linhas do SELECT. Vimos no último vídeo um outro cenário, onde utilizar fetch, ao invés de utilizar o fetchAll, pode ser vantajoso.
+
+// Em que caso pode ser interessante utilizar fetch ao invés do fetchAll?
+
+// Alternativa correta! Se tivermos muitas linhas sendo trazidas e tentarmos executar o fetchAll, iremos colocar todas as linhas em memória de uma vez só. Isso pode trazer problemas. Utilizando o fetch dentro de um while, pode nos permitir buscar todos os resultados, mas colocando um de cada vez na memória.
