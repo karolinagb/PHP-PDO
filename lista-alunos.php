@@ -7,13 +7,17 @@ require_once 'vendor/autoload.php';
 $databasePath = __DIR__ . '/banco.sqlite';
 $pdo = new PDO('sqlite:' . $databasePath);
 
-$statement = $pdo->query('SELECT * FROM students;');
+$statement = $pdo->query('SELECT * FROM students WHERE id = 1;');
 
 //FETCH_ASSOC = TRAZ o indice do array com o nome da coluna
 //PDO::FETCH_CLASS, Student::class vai instanciar a classe student e preencher suas propriedades baseado no nome das colunas do bd
     //O indicado é buscar como array associativo para não ter problema de divergência de nome de coluna com nome de propriedade
-$studentDataList = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    //o metodo fetch busca um objeto só
+$studentDataList = $statement->fetch(PDO::FETCH_ASSOC);
 $studentList = [];
+
+var_dump($studentDataList); exit();
 
 
 foreach($studentDataList as $studentData){
