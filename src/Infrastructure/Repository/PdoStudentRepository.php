@@ -2,12 +2,13 @@
 
 namespace Alura\Pdo\Infrastructure\Repository;
 
+use PDO;
+use PDOStatement;
+use DateTimeImmutable;
 use DateTimeInterface;
 use Alura\Pdo\Domain\Model\Student;
 use Alura\Pdo\Domain\Repository\StudentRepository;
-use Alura\Pdo\Infrastructure\Persistence\ConnectionCreator;
-use PDO;
-use PDOStatement;
+
 
 //Enquanto DAOs vão ter métodos como get, create, update e delete, lembrando ações que realizamos em tabelas de um banco de dados, Repositories vão possuir métodos como all, findById, add, remove, tratando os dados como uma coleção.
 
@@ -48,7 +49,7 @@ class PdoStudentRepository implements StudentRepository
         //Trazendo dados do banco de dados para a camada do nosso negocio
         //Esse é o conceito do hydrate/Hidratar
         foreach ($studentDataList as $studentData) {
-            $studentList[] = new Student($studentData['id'], $studentData['name'], new DateTimeInterface($studentData['birth_date']));
+            $studentList[] = new Student($studentData['id'], $studentData['name'], new DateTimeImmutable($studentData['birth_date']));
         }
 
         return $studentList;

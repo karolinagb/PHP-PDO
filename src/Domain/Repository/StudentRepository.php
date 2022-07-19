@@ -2,8 +2,9 @@
 
 namespace Alura\Pdo\Domain\Repository;
 
-use Alura\Pdo\Domain\Model\Student;
+
 use DateTimeInterface;
+use Alura\Pdo\Domain\Model\Student;
 
 interface StudentRepository
 {
