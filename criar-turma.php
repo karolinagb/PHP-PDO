@@ -16,7 +16,7 @@ $connection->beginTransaction();
 
 $aStudent = new Student(
     null,
-    "Titico",
+    "Teste1",
     new DateTimeImmutable("1985-10-12")
 );
 
@@ -24,14 +24,15 @@ $studentRepository->save($aStudent);
 
 $anotherStudent = new Student(
     null,
-    "Mariana",
+    "Teste2",
     new DateTimeImmutable("1985-10-12")
 );
 
 $studentRepository->save($anotherStudent);
 
 //Comita as alterações para efetivar no banco
-$connection->commit();
+// $connection->commit();
+$connection->rollBack(); //cancela uma transação
 
 foreach ($studentRepository->allStudents() as $student) {
     var_dump($student);
