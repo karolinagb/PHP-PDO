@@ -17,6 +17,9 @@ class ConnectionCreator{
             //No nosso caso estamos reportando eles como exceções
         $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+        //Defini que o fetchAll por exemplo vai retornar sempre umm array associativo
+        $connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+
         return $connection;
     }
 }

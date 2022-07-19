@@ -43,7 +43,7 @@ class PdoStudentRepository implements StudentRepository
 
     private function hydrateStudentList(PDOStatement $stament): array
     {
-        $studentDataList = $stament->fetchAll(PDO::FETCH_ASSOC); //preciso executar o prepare statment antes de chamar o fetchAll()
+        $studentDataList = $stament->fetchAll(); //preciso executar o prepare statment antes de chamar o fetchAll()
         $studentList = [];
 
         //Trazendo dados do banco de dados para a camada do nosso negocio
