@@ -11,6 +11,12 @@ class ConnectionCreator{
     public static function createConnection(): PDO
     {
         $databasePath = __DIR__ . '/../../../banco.sqlite';
-        return new PDO('sqlite:' . $databasePath);
+        $connection = new PDO('sqlite:' . $databasePath);
+
+        //Define como vão ser reportados os erros na classe de conexão
+            //No nosso caso estamos reportando eles como exceções
+        $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        return $connection;
     }
 }

@@ -11,29 +11,36 @@ $studentRepository = new PdoStudentRepository($connection);
 
 //Queremos inserir vários alunos ao mesmo tempo, mas se um não for inserido, então nenhum outro pode ser, pra isso podemos usar transações
 //beginTransaction() - inicia uma transação no bd
-    //Quando eu executar uma query ele nao vai fazer isso efetivo no banco, vai aguardar até que eu acabe essa transação
+//Quando eu executar uma query ele nao vai fazer isso efetivo no banco, vai aguardar até que eu acabe essa transação
 $connection->beginTransaction();
 
-$aStudent = new Student(
-    null,
-    "Teste1",
-    new DateTimeImmutable("1985-10-12")
-);
+try {
+    $aStudent = new Student(
+        null,
+        "Teste1",
+        new DateTimeImmutable("1985-10-12")
+    );
 
-$studentRepository->save($aStudent);
+    $studentRepository->save($aStudent);
 
-$anotherStudent = new Student(
-    null,
-    "Teste2",
-    new DateTimeImmutable("1985-10-12")
-);
+    $anotherStudent = new Student(
+        null,
+        "Teste2",
+        new DateTimeImmutable("1985-10-12")
+    );
 
-$studentRepository->save($anotherStudent);
+    $studentRepository->save($anotherStudent);
 
-//Comita as alterações para efetivar no banco
-// $connection->commit();
-$connection->rollBack(); //cancela uma transação
-
-foreach ($studentRepository->allStudents() as $student) {
-    var_dump($student);
+    $connection->commit();
+} catch (PDOException $e) 
+{
+    echo $e->getMessage();
+    //Comita as alterações para efetivar no banco
+    // $connection->commit();
+    $connection->rollBack(); //cancela uma transação
 }
+
+
+// foreach ($studentRepository->allStudents() as $student) {
+//     var_dump($student);
+// }
