@@ -14,6 +14,9 @@ $pdo = new PDO('sqlite:banco.sqlite');
 
 echo 'Conectei';
 
+$pdo->exec("INSERT INTO phones (area_code, number, student_id) VALUES ('11', '123456789', 25), ('21', '456518799', 25);");
+exit();
+
 $createTableSql ='
     CREATE TABLE IF NOT EXISTS students (
         id INTERGER PRIMARY KEY,

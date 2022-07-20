@@ -1,34 +1,44 @@
 <?php
 
 use Alura\Pdo\Domain\Model\Student;
+use Alura\Pdo\Infrastructure\Persistence\ConnectionCreator;
+use Alura\Pdo\Infrastructure\Repository\PdoStudentRepository;
 
 require_once 'vendor/autoload.php';
 
-$databasePath = __DIR__ . '/banco.sqlite';
-$pdo = new PDO('sqlite:' . $databasePath);
+$pdo = ConnectionCreator::createConnection();
 
-$statement = $pdo->query('SELECT * FROM students;');
+$repository = new PdoStudentRepository($pdo);
 
-//fetchColumn = retorna 1 linha com os dados de 1 única coluna
-var_dump($statement->fetchColumn(1)); exit(); //percorre uma linha de cada vez
+$studenteList = $repository->allStudents();
 
-//FETCH_ASSOC = TRAZ o indice do array com o nome da coluna
-//PDO::FETCH_CLASS, Student::class vai instanciar a classe student e preencher suas propriedades baseado no nome das colunas do bd
-    //O indicado é buscar como array associativo para não ter problema de divergência de nome de coluna com nome de propriedade
-$studentDataList = $statement->fetchAll(PDO::FETCH_ASSOC);
-$studentList = [];
+var_dump($studenteList);
 
-var_dump($studentList);
+// $databasePath = __DIR__ . '/banco.sqlite';
+// $pdo = new PDO('sqlite:' . $databasePath);
 
-foreach($studentDataList as $studentData){
-    $studentList[] = new Student($studentData['id'], $studentData['name'], new DateTimeImmutable($studentData['birthDate']));
-}
+// $statement = $pdo->query('SELECT * FROM students;');
 
-//Pegando o primeiro aluno e exibindo o id
-echo $studentList[0]['id'] . PHP_EOL;
+// //fetchColumn = retorna 1 linha com os dados de 1 única coluna
+// var_dump($statement->fetchColumn(1)); exit(); //percorre uma linha de cada vez
 
-//ou do primeiro aluno posso exibir a primeira coluna que é o id
-echo $studentList[0][0];
+// //FETCH_ASSOC = TRAZ o indice do array com o nome da coluna
+// //PDO::FETCH_CLASS, Student::class vai instanciar a classe student e preencher suas propriedades baseado no nome das colunas do bd
+//     //O indicado é buscar como array associativo para não ter problema de divergência de nome de coluna com nome de propriedade
+// $studentDataList = $statement->fetchAll(PDO::FETCH_ASSOC);
+// $studentList = [];
+
+// var_dump($studentList);
+
+// foreach($studentDataList as $studentData){
+//     $studentList[] = new Student($studentData['id'], $studentData['name'], new DateTimeImmutable($studentData['birthDate']));
+// }
+
+// //Pegando o primeiro aluno e exibindo o id
+// echo $studentList[0]['id'] . PHP_EOL;
+
+// //ou do primeiro aluno posso exibir a primeira coluna que é o id
+// echo $studentList[0][0];
 
 //O padrão do fetchAll é trazer os dados representados dessas 2 formas
 //Só que podemos informar como ele deve trazer essa informação
