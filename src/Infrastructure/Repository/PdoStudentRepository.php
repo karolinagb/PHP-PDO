@@ -32,9 +32,32 @@ class PdoStudentRepository implements StudentRepository
         return $this->hydrateStudentList($statment);
     }
 
-    public function studentsWithPhones(Type $args): array
+    public function studentWithPhones(): array
     {
-        # code...
+        $sqlQuery = "SELECT students.id, 
+                            students.name, 
+                            students.birth_date,
+                            phones.id AS phone_id,
+                            phones.area_code,
+                            phones.number
+                    FROM students
+                    JOIN phones ON students.id = phones.student_id";
+        
+        $statment = $this->connection->query($sqlQuery);
+        $result = $statment->fetchAll();
+
+        $studentList = [];
+
+        foreach ($result as $row) {
+            if(!array_key_exists($row['id'], $studentList))
+            {
+                $studentList[$row['id']] = new Student($row['id'], $row['name'], new DateTimeImmutable($row['birth_date']));
+            }
+            $phone = new Phone($row['phone_id'], $row['area_code'], $row['number']);
+            $studentList[$row['id']]->addPhone($phone);
+        }
+
+        return $studentList;
     }
 
     public function studentsBirthAt(DateTimeInterface $birthDate): array

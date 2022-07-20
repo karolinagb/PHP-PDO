@@ -63,7 +63,7 @@ class Student
     /** @return Phone[] */
     public function phones(): array
     {
-        return $this->phones();
+        return $this->phones;
     }
 
 }
