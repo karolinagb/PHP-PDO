@@ -10,5 +10,5 @@ $repository = new PdoStudentRepository($connection);
 
 $studentList = $repository->studentWithPhones();
 
-echo $studentList[25]->phones()[0]->formattedPhone();
+echo $studentList[1]->phones()[0]->formattedPhone();
 var_dump($studentList);
