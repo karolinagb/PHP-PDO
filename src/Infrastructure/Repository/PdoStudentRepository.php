@@ -32,6 +32,11 @@ class PdoStudentRepository implements StudentRepository
         return $this->hydrateStudentList($statment);
     }
 
+    public function studentsWithPhones(Type $args): array
+    {
+        # code...
+    }
+
     public function studentsBirthAt(DateTimeInterface $birthDate): array
     {
         $sqlQuery = 'SELECT * FROM students WHERE birth_date = ?;';
@@ -50,32 +55,32 @@ class PdoStudentRepository implements StudentRepository
         //Trazendo dados do banco de dados para a camada do nosso negocio
         //Esse é o conceito do hydrate/Hidratar
         foreach ($studentDataList as $studentData) {
-            $student = new Student($studentData['id'], $studentData['name'], new DateTimeImmutable($studentData['birth_date']));
+            $studentList[] = new Student($studentData['id'], $studentData['name'], new DateTimeImmutable($studentData['birth_date']));
         }
 
-        //Preenchendo os telefones do aluno
-        $this->fillPhonesOf($student);
+        // //Preenchendo os telefones do aluno
+        // $this->fillPhonesOf($student);
 
-        //Adicionando estudante na lista
-        $studentList[] = $student;
+        // //Adicionando estudante na lista
+        // $studentList[] = $student;
 
         return $studentList;
     }
 
-    private function fillPhonesOf(Student $student): void
-    {
-        $sqlQuery = 'SELECT id, area_code, number FROM phones WHERE student_id = ?';
-        $statment = $this->connection->prepare($sqlQuery);
-        $statment->bindValue(1, $student->id(), PDO::PARAM_INT);
-        $statment->execute();
+    // private function fillPhonesOf(Student $student): void
+    // {
+    //     $sqlQuery = 'SELECT id, area_code, number FROM phones WHERE student_id = ?';
+    //     $statment = $this->connection->prepare($sqlQuery);
+    //     $statment->bindValue(1, $student->id(), PDO::PARAM_INT);
+    //     $statment->execute();
 
-        $phoneDataList = $statment->fetchAll();
-        var_dump($phoneDataList);
-        foreach ($phoneDataList as $phoneData) {
-            $phone = new Phone($phoneData['id'], $phoneData['area_code'], $phoneData['number']);
-        }
-        $student->addPhone($phone);
-    }
+    //     $phoneDataList = $statment->fetchAll();
+    //     var_dump($phoneDataList);
+    //     foreach ($phoneDataList as $phoneData) {
+    //         $phone = new Phone($phoneData['id'], $phoneData['area_code'], $phoneData['number']);
+    //     }
+    //     $student->addPhone($phone);
+    // }
 
     private function insert(Student $student): bool
     {
