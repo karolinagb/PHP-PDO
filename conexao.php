@@ -14,5 +14,21 @@ $pdo = new PDO('sqlite:banco.sqlite');
 
 echo 'Conectei';
 
+$createTableSql ='
+    CREATE TABLE IF NOT EXISTS students (
+        id INTERGER PRIMARY KEY,
+        name TEXT,
+        birth_date TEXT
+    );
+
+    CREATE TABLE IF NOT EXISTS phones (
+        id INTERGER PRIMARY KEY,
+        area_code TEXT,
+        number TEXT,
+        student_id INTERGER,
+        FOREIGN KEY(student_id) REFERENCES students(id)
+    );
+';
+
 //EXECUTAR código sql
-$pdo->exec('CREATE TABLE students (id INTEGER PRIMARY KEY, name TEXT, birth_date TEXT);');
+$pdo->exec($createTableSql);
